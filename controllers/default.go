@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
+	"github.com/pbnjay/memory"
 )
 
 type ApiController struct {
@@ -31,5 +32,18 @@ func (c *ApiController) response(args ...interface{}) {
 }
 
 func (c *ApiController) Status() {
-	c.response(0, "Akasha is running correctly.")
+	type MemoryStruct struct {
+		Total uint64
+		Avail uint64
+	}
+	type StatusStruct struct {
+		Memory MemoryStruct
+	}
+
+	c.response(0, "Akasha is running.", StatusStruct{
+		Memory: MemoryStruct{
+			Total: memory.TotalMemory(),
+			Avail: memory.FreeMemory(),
+		},
+	})
 }
