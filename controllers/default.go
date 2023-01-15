@@ -30,15 +30,6 @@ func (c *ApiController) response(args ...interface{}) {
 	c.ServeJSON()
 }
 
-func (c *ApiController) Index() {
-	c.Data["json"] = Response{Code: 0, Msg: "ok"}
-	c.ServeJSON()
-}
-
-func (c *ApiController) Ok() {
-	c.response()
-}
-
-func (c *ApiController) Error() {
-	c.response(1, "error test")
+func (c *ApiController) Status() {
+	c.response(0, "Akasha is running correctly.")
 }

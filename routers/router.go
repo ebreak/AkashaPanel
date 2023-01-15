@@ -7,5 +7,5 @@ import (
 )
 
 func init() {
-	beego.Router("/api/", &controllers.ApiController{}, "GET:Index")
+	beego.Router("/api/status", &controllers.ApiController{}, "GET:Status")
 }
