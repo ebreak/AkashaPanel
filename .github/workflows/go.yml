@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-  build:
+  build-linux:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -19,14 +19,31 @@ jobs:
       with:
         go-version: 1.19
 
-    - name: Build Windows amd64
-      run: GOOS=windows GOARCH=amd64 CGO_ENABLED=1 go build -o AkashaPanel.exe
-
     - name: Build Ubuntu Linux amd64
       run: go build -o AkashaPanel
 
-#    - name: Test
-#      run: go test -v ./...
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: latest
+        release_name: latest
+        files: |
+          AkashaPanel
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+
+    - name: Build Windows amd64
+      run: go build -o AkashaPanel.exe
 
     - name: Release
       uses: softprops/action-gh-release@v1
@@ -35,6 +52,5 @@ jobs:
         release_name: latest
         files: |
           AkashaPanel.exe
-          AkashaPanel
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
