@@ -27,6 +27,11 @@ func (c *ApiController) response(args ...interface{}) {
 	case 1:
 		resp.Code = args[0].(int)
 	}
+
+	if resp.Code >= 100 {
+		c.Ctx.ResponseWriter.WriteHeader(resp.Code)
+	}
+
 	c.Data["json"] = resp
 	c.ServeJSON()
 }
