@@ -19,16 +19,10 @@ func Init() {
 	}
 
 	// init config
-	if !db.Migrator().HasTable(&objects.Config{}) {
-		utils.LogInfo("Initializing the database.")
-		db.Migrator().CreateTable(&objects.Config{})
-
-		db.Create(&objects.Config{Key: "username", Value: "Nahida"})
-
-		password := utils.RandString(16)
-		utils.LogInfo("Default username is [Nahida], password is [" + password + "], please copy that.")
-		db.Create(&objects.Config{Key: "password", Value: password})
-	}
+	initTable(&objects.Config{})
+	InitConfig("username", "Nahida")
+	InitConfig("password", utils.RandString(16))
+	utils.LogInfo("Username is [" + GetConfig("username") + "], password is [" + GetConfig("password") + "].")
 
 	// initTable(&objects.User{})
 }
